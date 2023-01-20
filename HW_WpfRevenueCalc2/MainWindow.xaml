@@ -1,0 +1,16 @@
+﻿<Window x:Class="HW_WpfRevenueCalc2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HW_WpfRevenueCalc2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="367" Width="391">
+    <Grid>
+        <Button Content="Посчитать на одной переменной" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Height="35" Width="370" Click="Button_Click" FontSize="16"/>
+        <TextBox x:Name="textBoxTotal" HorizontalAlignment="Center" Margin="0,170,0,0" TextWrapping="Wrap" Text="Сначала нажмите на кнопку" VerticalAlignment="Top" Width="298" TextChanged="TextBox_TextChanged" Height="30" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="textBoxTime" HorizontalAlignment="Center" Margin="0,265,0,0" TextWrapping="Wrap" Text="Время вычисления" VerticalAlignment="Top" Width="298" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Content="Посчитать на двух переменных" HorizontalAlignment="Center" Margin="0,110,0,0" VerticalAlignment="Top" Width="370" Height="36" Click="Button_Click_1" FontSize="16"/>
+
+    </Grid>
+</Window>
