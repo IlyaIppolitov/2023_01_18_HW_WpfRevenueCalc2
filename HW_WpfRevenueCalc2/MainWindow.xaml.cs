@@ -95,8 +95,8 @@ namespace HW_WpfRevenueCalc2
                 string[] incomeLines = System.IO.File.ReadAllLines(incomeFile);
                 foreach (string line in incomeLines)
                 {
-                    //lockTotalCounter.AddTotal(decimal.Parse(line));
-                    lock (lockObj) { totalIncome += decimal.Parse(line); }
+                    lock (lockObj) 
+                    { totalIncome += decimal.Parse(line); }
                 }
 
                 if (tasks[1].IsCompleted)
@@ -116,7 +116,8 @@ namespace HW_WpfRevenueCalc2
                 string[] outcomeLines = System.IO.File.ReadAllLines(outcomeFile);
                 foreach (string line in outcomeLines)
                 {
-                    lock (lockObj) { totalOutcome += decimal.Parse(line); }
+                    lock (lockObj) 
+                    { totalOutcome += decimal.Parse(line); }
                 }
 
                 if (tasks[0].IsCompleted)
@@ -134,6 +135,57 @@ namespace HW_WpfRevenueCalc2
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            // Пуск таймера для проверки времени работы программы
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            decimal totalIncome = 0;
+            decimal totalOutcome = 0;
+
+            Task[] tasks = new Task[2];
+            tasks[0] = Task.Factory.StartNew(() =>
+            {
+                string incomeFile = @"D:\FilesToRead\income.txt";
+                string[] incomeLines = System.IO.File.ReadAllLines(incomeFile);
+                foreach (string line in incomeLines)
+                {
+                    totalIncome += decimal.Parse(line); 
+                }
+
+                if (tasks[1].IsCompleted)
+                {
+                    // Останов таймера
+                    stopWatch.Stop();
+                    // Получение прошедшего времени
+                    TimeSpan ts = stopWatch.Elapsed;
+                    Dispatcher.Invoke(() => textBoxTime.Text = $"Время вычисления: {ts.Milliseconds.ToString()} мс.");
+                    Dispatcher.Invoke(() => textBoxTotal.Text = $"Прибыль: {(totalIncome - totalOutcome).ToString()}");
+                }
+            });
+
+            tasks[1] = Task.Factory.StartNew(() =>
+            {
+                string outcomeFile = @"D:\FilesToRead\outcome.txt";
+                string[] outcomeLines = System.IO.File.ReadAllLines(outcomeFile);
+                foreach (string line in outcomeLines)
+                {
+                    totalOutcome += decimal.Parse(line); 
+                }
+
+                if (tasks[0].IsCompleted)
+                {
+                    // Останов таймера
+                    stopWatch.Stop();
+                    // Получение прошедшего времени
+                    TimeSpan ts = stopWatch.Elapsed;
+                    Dispatcher.Invoke(() => textBoxTime.Text = $"Время вычисления: {ts.Milliseconds.ToString()} мс.");
+                    Dispatcher.Invoke(() => textBoxTotal.Text = $"Прибыль: {(totalIncome - totalOutcome).ToString()}");
+                }
+            });
         }
     }
 }
